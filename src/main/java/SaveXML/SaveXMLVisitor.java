@@ -6,34 +6,28 @@ import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.Collections;
+import java.util.Queue;
 
 public class SaveXMLVisitor implements TaskVisitor {
 
-    private static BufferedWriter writer;
-
-    private final List<String> tasks;
-
+    private final BufferedWriter writer;
     private final Queue<Task> offset;
-    public SaveXMLVisitor() {
-        tasks = new ArrayList<>();
+
+
+    public SaveXMLVisitor() throws IOException {
         offset = Collections.asLifoQueue(new ArrayDeque<>());
+        writer = new BufferedWriter(new FileWriter("test.xml", false));
     }
 
     @Override
     public void visitBooleanTask(BooleanTask booleanTask) {
         String shift = updateShift();
         String result = shift + "<booleanTask finished=\"" + (booleanTask.isFinished()) + "\">\n";
-        offset.add(booleanTask);
-        shift = updateShift();
-        result += shift + "<description text=\"" + booleanTask.getDescription() + "\"/>\n" +
-                shift + "<deadline date=\"" + booleanTask.getDeadline() + "\"/>\n" +
-                shift + "<priority priority=\"" + booleanTask.getPriority() + "\"/>\n" +
-                shift + "<estimatedTime days=\"" + (booleanTask.getEstimatedTimeInDays()) + "\"/>\n";
-        offset.remove(booleanTask);
+        result += printTask(booleanTask);
         shift = updateShift();
         result += shift + "</booleanTask>" + "\n";
         try {
@@ -47,13 +41,7 @@ public class SaveXMLVisitor implements TaskVisitor {
     public void visitProgressiveTask(ProgressiveTask progressiveTask) {
         String shift = updateShift();
         String result = shift + "<progressiveTask progress=\"" + (progressiveTask.getProgress()) + "\">" + "\n";
-        offset.add(progressiveTask);
-        shift = updateShift();
-        result += shift + "<description text=\"" + progressiveTask.getDescription() + "\"/>\n" +
-                shift + "<deadline date=\"" + progressiveTask.getDeadline() + "\"/>\n" +
-                shift + "<priority priority=\"" + progressiveTask.getPriority() + "\"/>\n" +
-                shift + "<estimatedTime days=\"" + (progressiveTask.getEstimatedTimeInDays()) + "\"/>\n";
-        offset.remove(progressiveTask);
+        result += printTask(progressiveTask);
         shift = updateShift();
         result += shift + "</progressiveTask>" + "\n";
         try {
@@ -90,39 +78,17 @@ public class SaveXMLVisitor implements TaskVisitor {
     }
 
     @Override
-    public void saveFile() {
-
-    }
-    
-    private String updateShift() {
-        StringBuilder result = new StringBuilder();
-        result.append("\t");
-        for (int i = 0; i < offset.size(); ++i) {
-            result.append("\t");
-        }
-        return result.toString();
-    }
-    
-    public static void main(String[] args) throws IOException {
-        ToDoListBuilder builder = new ToDoListBuilderStd();
-        try {
-            XMLToDoListLoader.load("xml/toDoList.xml", builder);
-        } catch (ParserConfigurationException | IOException | SAXException e) {
-            throw new RuntimeException(e);
-        }
-        ToDoList list = builder.createToDoList();
-        SaveXMLVisitor save = new SaveXMLVisitor();
-        writer = new BufferedWriter(new FileWriter("test.xml", false));
+    public void saveFile(String fileName, ToDoList toDoList) throws IOException {
         try {
             writer.append("""
-                    <?xml version="1.0" encoding="UTF-8"?>
-                    <!DOCTYPE toDoList SYSTEM "xml/toDoList.dtd">""" +
+                        <?xml version="1.0" encoding="UTF-8"?>
+                        <!DOCTYPE toDoList SYSTEM "xml/toDoList.dtd">""" +
                     "\n\n<toDoList>\n");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        for (Task task: list.getTasks()) {
-            task.accept(save);
+        for (Task task: toDoList.getTasks()) {
+            task.accept(this);
         }
         try {
             writer.append("</toDoList>");
@@ -132,4 +98,27 @@ public class SaveXMLVisitor implements TaskVisitor {
         writer.close();
     }
 
+    /**
+     * @return
+     * returns the amount of shifts needed to indent XML file
+     */
+    private String updateShift() {
+        return "\t" +
+                "\t".repeat(offset.size());
+    }
+
+    /**
+     * @param task Task
+     * @return String
+     * print the common fields of a task
+     */
+    private String printTask(Task task) {
+        offset.add(task);
+        String shift = updateShift();
+        offset.remove(task);
+        return shift + "<description text=\"" + task.getDescription() + "\"/>\n" +
+                shift + "<deadline date=\"" + task.getDeadline() + "\"/>\n" +
+                shift + "<priority priority=\"" + task.getPriority() + "\"/>\n" +
+                shift + "<estimatedTime days=\"" + (task.getEstimatedTimeInDays()) + "\"/>\n";
+    }
 }
