@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE toDoList SYSTEM "xml/toDoList.dtd">
+
+<toDoList>
+	<booleanTask finished="false">
+		<description text="HELLO"/>
+		<deadline date="Fri Mar 01 00:00:00 CET 2024"/>
+		<priority priority="MINOR"/>
+		<estimatedTime days="3"/>
+	</booleanTask>
+	<progressiveTask progress="50.0">
+		<description text="text"/>
+		<deadline date="Fri Mar 01 00:00:00 CET 2024"/>
+		<priority priority="MINOR"/>
+		<estimatedTime days="4"/>
+	</progressiveTask>
+	<complexTask>
+		<description text="hello"/>
+		<priority priority="MINOR"/>
+		<complexTask>
+			<description text="a"/>
+			<priority priority="MINOR"/>
+			<progressiveTask progress="1.2">
+				<description text="mpo"/>
+				<deadline date="Fri Mar 01 00:00:00 CET 2024"/>
+				<priority priority="MINOR"/>
+				<estimatedTime days="14"/>
+			</progressiveTask>
+		</complexTask>
+		<booleanTask finished="true">
+			<description text="gyezauye"/>
+			<deadline date="Fri Mar 01 00:00:00 CET 2024"/>
+			<priority priority="MINOR"/>
+			<estimatedTime days="14"/>
+		</booleanTask>
+	</complexTask>
+</toDoList>

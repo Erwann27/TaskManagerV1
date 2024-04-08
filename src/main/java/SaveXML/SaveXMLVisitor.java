@@ -5,11 +5,15 @@ import ToDoList.*;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
 public class SaveXMLVisitor implements TaskVisitor {
+
+    private static BufferedWriter writer;
 
     private final List<String> tasks;
 
@@ -26,29 +30,37 @@ public class SaveXMLVisitor implements TaskVisitor {
         offset.add(booleanTask);
         shift = updateShift();
         result += shift + "<description text=\"" + booleanTask.getDescription() + "\"/>\n" +
-                shift + "<deadline date=\"" + booleanTask.getDeadline() + "\">\n" +
+                shift + "<deadline date=\"" + booleanTask.getDeadline() + "\"/>\n" +
                 shift + "<priority priority=\"" + booleanTask.getPriority() + "\"/>\n" +
                 shift + "<estimatedTime days=\"" + (booleanTask.getEstimatedTimeInDays()) + "\"/>\n";
         offset.remove(booleanTask);
         shift = updateShift();
-        result += shift + "</booleanTask>";
-        System.out.println(result);
+        result += shift + "</booleanTask>" + "\n";
+        try {
+            writer.append(result);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public void visitProgressiveTask(ProgressiveTask progressiveTask) {
         String shift = updateShift();
-        String result = shift + "<progressiveTask progress=\"" + (progressiveTask.getProgress()) + "\">\n";
+        String result = shift + "<progressiveTask progress=\"" + (progressiveTask.getProgress()) + "\">" + "\n";
         offset.add(progressiveTask);
         shift = updateShift();
         result += shift + "<description text=\"" + progressiveTask.getDescription() + "\"/>\n" +
-                shift + "<deadline date=\"" + progressiveTask.getDeadline() + "\">\n" +
+                shift + "<deadline date=\"" + progressiveTask.getDeadline() + "\"/>\n" +
                 shift + "<priority priority=\"" + progressiveTask.getPriority() + "\"/>\n" +
                 shift + "<estimatedTime days=\"" + (progressiveTask.getEstimatedTimeInDays()) + "\"/>\n";
         offset.remove(progressiveTask);
         shift = updateShift();
-        result += shift + "</progressiveTask>";
-        System.out.println(result);
+        result += shift + "</progressiveTask>" + "\n";
+        try {
+            writer.append(result);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -58,15 +70,23 @@ public class SaveXMLVisitor implements TaskVisitor {
         offset.add(complexTask);
         shift = updateShift();
         result += shift + "<description text=\"" + complexTask.getDescription() + "\"/>\n" +
-                shift + "<priority priority=\"" + complexTask.getPriority() + "\"/>";
-        System.out.println(result);
+                shift + "<priority priority=\"" + complexTask.getPriority() + "\"/>\n";
+        try {
+            writer.append(result);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         for (Task task : complexTask.getSubTasks()) {
             task.accept(this);
         }
         offset.remove(complexTask);
         shift = updateShift();
-        result = shift + "</complexTask>";
-        System.out.println(result);
+        result = shift + "</complexTask>" + "\n";
+        try {
+            writer.append(result);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -83,7 +103,7 @@ public class SaveXMLVisitor implements TaskVisitor {
         return result.toString();
     }
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         ToDoListBuilder builder = new ToDoListBuilderStd();
         try {
             XMLToDoListLoader.load("xml/toDoList.xml", builder);
@@ -92,11 +112,24 @@ public class SaveXMLVisitor implements TaskVisitor {
         }
         ToDoList list = builder.createToDoList();
         SaveXMLVisitor save = new SaveXMLVisitor();
-        System.out.println("<toDoList>");
+        writer = new BufferedWriter(new FileWriter("test.xml", false));
+        try {
+            writer.append("""
+                    <?xml version="1.0" encoding="UTF-8"?>
+                    <!DOCTYPE toDoList SYSTEM "xml/toDoList.dtd">""" +
+                    "\n\n<toDoList>\n");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         for (Task task: list.getTasks()) {
             task.accept(save);
         }
-        System.out.println("</toDoList>");
+        try {
+            writer.append("</toDoList>");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        writer.close();
     }
 
 }
