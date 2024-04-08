@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!ELEMENT toDoList (complexTask|progressiveTask|booleanTask)*>
+
+<!ENTITY % finished "(true|false)">
+
+
+<!ELEMENT booleanTask (description, deadline, priority, estimatedTime)>
+    <!ATTLIST booleanTask finished %finished; #REQUIRED>
+
+<!ELEMENT progressiveTask (description, deadline, priority, estimatedTime)>
+    <!ATTLIST progressiveTask progress CDATA #REQUIRED>
+
+<!ELEMENT complexTask (description, priority, (complexTask|progressiveTask|booleanTask)*)>
+
+<!ELEMENT description EMPTY>
+    <!ATTLIST description text CDATA #REQUIRED>
+
+<!ELEMENT deadline EMPTY>
+    <!ATTLIST deadline date CDATA #REQUIRED>
+
+<!ELEMENT priority EMPTY>
+    <!ATTLIST priority priority CDATA #REQUIRED>
+
+<!ELEMENT estimatedTime EMPTY>
+    <!ATTLIST estimatedTime days CDATA #REQUIRED>
