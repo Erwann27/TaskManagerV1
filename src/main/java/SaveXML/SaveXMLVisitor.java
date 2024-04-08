@@ -5,50 +5,50 @@ import ToDoList.*;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.File;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.Collections;
+import java.util.Queue;
 
 public class SaveXMLVisitor implements TaskVisitor {
 
-    private final List<String> tasks;
-
+    private final BufferedWriter writer;
     private final Queue<Task> offset;
-    public SaveXMLVisitor() {
-        tasks = new ArrayList<>();
+
+
+    public SaveXMLVisitor() throws IOException {
         offset = Collections.asLifoQueue(new ArrayDeque<>());
+        writer = new BufferedWriter(new FileWriter("test.xml", false));
     }
 
     @Override
     public void visitBooleanTask(BooleanTask booleanTask) {
         String shift = updateShift();
         String result = shift + "<booleanTask finished=\"" + (booleanTask.isFinished()) + "\">\n";
-        offset.add(booleanTask);
+        result += printTask(booleanTask);
         shift = updateShift();
-        result += shift + "<description text=\"" + booleanTask.getDescription() + "\"/>\n" +
-                shift + "<deadline date=\"" + booleanTask.getDeadline() + "\">\n" +
-                shift + "<priority priority=\"" + booleanTask.getPriority() + "\"/>\n" +
-                shift + "<estimatedTime days=\"" + (booleanTask.getEstimatedTimeInDays()) + "\"/>\n";
-        offset.remove(booleanTask);
-        shift = updateShift();
-        result += shift + "</booleanTask>";
-        System.out.println(result);
+        result += shift + "</booleanTask>" + "\n";
+        try {
+            writer.append(result);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public void visitProgressiveTask(ProgressiveTask progressiveTask) {
         String shift = updateShift();
-        String result = shift + "<progressiveTask progress=\"" + (progressiveTask.getProgress()) + "\">\n";
-        offset.add(progressiveTask);
+        String result = shift + "<progressiveTask progress=\"" + (progressiveTask.getProgress()) + "\">" + "\n";
+        result += printTask(progressiveTask);
         shift = updateShift();
-        result += shift + "<description text=\"" + progressiveTask.getDescription() + "\"/>\n" +
-                shift + "<deadline date=\"" + progressiveTask.getDeadline() + "\">\n" +
-                shift + "<priority priority=\"" + progressiveTask.getPriority() + "\"/>\n" +
-                shift + "<estimatedTime days=\"" + (progressiveTask.getEstimatedTimeInDays()) + "\"/>\n";
-        offset.remove(progressiveTask);
-        shift = updateShift();
-        result += shift + "</progressiveTask>";
-        System.out.println(result);
+        result += shift + "</progressiveTask>" + "\n";
+        try {
+            writer.append(result);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -58,45 +58,67 @@ public class SaveXMLVisitor implements TaskVisitor {
         offset.add(complexTask);
         shift = updateShift();
         result += shift + "<description text=\"" + complexTask.getDescription() + "\"/>\n" +
-                shift + "<priority priority=\"" + complexTask.getPriority() + "\"/>";
-        System.out.println(result);
+                shift + "<priority priority=\"" + complexTask.getPriority() + "\"/>\n";
+        try {
+            writer.append(result);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         for (Task task : complexTask.getSubTasks()) {
             task.accept(this);
         }
         offset.remove(complexTask);
         shift = updateShift();
-        result = shift + "</complexTask>";
-        System.out.println(result);
+        result = shift + "</complexTask>" + "\n";
+        try {
+            writer.append(result);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
-    public void saveFile() {
-
-    }
-    
-    private String updateShift() {
-        StringBuilder result = new StringBuilder();
-        result.append("\t");
-        for (int i = 0; i < offset.size(); ++i) {
-            result.append("\t");
-        }
-        return result.toString();
-    }
-    
-    public static void main(String[] args) {
-        ToDoListBuilder builder = new ToDoListBuilderStd();
+    public void saveFile(String fileName, ToDoList toDoList) throws IOException {
         try {
-            XMLToDoListLoader.load("xml/toDoList.xml", builder);
-        } catch (ParserConfigurationException | IOException | SAXException e) {
+            writer.append("""
+                        <?xml version="1.0" encoding="UTF-8"?>
+                        <!DOCTYPE toDoList SYSTEM "xml/toDoList.dtd">""" +
+                    "\n\n<toDoList>\n");
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        ToDoList list = builder.createToDoList();
-        SaveXMLVisitor save = new SaveXMLVisitor();
-        System.out.println("<toDoList>");
-        for (Task task: list.getTasks()) {
-            task.accept(save);
+        for (Task task: toDoList.getTasks()) {
+            task.accept(this);
         }
-        System.out.println("</toDoList>");
+        try {
+            writer.append("</toDoList>");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        writer.close();
     }
 
+    /**
+     * @return
+     * returns the amount of shifts needed to indent XML file
+     */
+    private String updateShift() {
+        return "\t" +
+                "\t".repeat(offset.size());
+    }
+
+    /**
+     * @param task Task
+     * @return String
+     * print the common fields of a task
+     */
+    private String printTask(Task task) {
+        offset.add(task);
+        String shift = updateShift();
+        offset.remove(task);
+        return shift + "<description text=\"" + task.getDescription() + "\"/>\n" +
+                shift + "<deadline date=\"" + task.getDeadline() + "\"/>\n" +
+                shift + "<priority priority=\"" + task.getPriority() + "\"/>\n" +
+                shift + "<estimatedTime days=\"" + (task.getEstimatedTimeInDays()) + "\"/>\n";
+    }
 }
