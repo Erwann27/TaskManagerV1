@@ -9,6 +9,8 @@ public class ToDoListBuilderStd implements ToDoListBuilder {
     private final TaskFactory taskFactory;
     private final Queue<String> tasksDescriptions;
     private final Queue<Priority> tasksPriorities;
+    private final List<List<Task>> tasks;
+    private int complexDepth;
     private Boolean finished;
     private Date deadline;
     private Double progress;
@@ -19,6 +21,7 @@ public class ToDoListBuilderStd implements ToDoListBuilder {
         taskFactory = new TaskFactoryStd();
         tasksDescriptions = Collections.asLifoQueue(new ArrayDeque<>());
         tasksPriorities = Collections.asLifoQueue(new ArrayDeque<>());
+        tasks = new ArrayList<>();
     }
 
     public void startBooleanTask() {
@@ -33,6 +36,9 @@ public class ToDoListBuilderStd implements ToDoListBuilder {
     
     public void startComplexTask() {
         startTask();
+        ++complexDepth;
+        List<Task> complexDepthList = new ArrayList<>();
+        tasks.add(complexDepthList);
     }
 
     
@@ -85,21 +91,42 @@ public class ToDoListBuilderStd implements ToDoListBuilder {
     }
 
     public void createComplexTask() {
-        toDoList.addTask(taskFactory.createComplexTask(tasksDescriptions.poll(), tasksPriorities.poll()));
+        ComplexTask complexTask = taskFactory.createComplexTask(tasksDescriptions.poll(), tasksPriorities.poll());
+        List<Task> depthTasks = tasks.get(complexDepth - 1);
+        for (Task task : depthTasks) {
+            complexTask.addSubTask(task);
+        }
+        --complexDepth;
+        if (complexDepth > 0) {
+            depthTasks = tasks.get(complexDepth - 1);
+            depthTasks.add(complexTask);
+        } else {
+            toDoList.addTask(complexTask);
+        }
     }
 
 
     public void createProgressiveTask() {
-        toDoList.addTask(taskFactory.createProgressiveTask(
-                tasksDescriptions.poll(), deadline, tasksPriorities.poll(), estimatedTime)
-        );
+        ProgressiveTask progressiveTask = taskFactory.createProgressiveTask(
+                progress, tasksDescriptions.poll(), deadline, tasksPriorities.poll(), estimatedTime);
+        if (complexDepth > 0) {
+            List<Task> depthTasks = tasks.get(complexDepth - 1);
+            depthTasks.add(progressiveTask);
+        } else {
+            toDoList.addTask(progressiveTask);
+        }
     }
 
 
     public void createBooleanTask() {
-        toDoList.addTask(taskFactory.createBooleanTask(
-                tasksDescriptions.poll(), deadline, tasksPriorities.poll(), estimatedTime)
-        );
+        BooleanTask booleanTask = taskFactory.createBooleanTask(
+                finished, tasksDescriptions.poll(), deadline, tasksPriorities.poll(), estimatedTime);
+        if (complexDepth > 0) {
+            List<Task> depthTasks = tasks.get(complexDepth - 1);
+            depthTasks.add(booleanTask);
+        } else {
+            toDoList.addTask(booleanTask);
+        }
     }
 
     public ToDoList createToDoList() {

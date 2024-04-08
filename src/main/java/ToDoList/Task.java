@@ -45,4 +45,11 @@ public interface Task {
      * set task priority
      */
     void setPriority(Priority priority);
+
+    /**
+     *
+     * @param taskVisitor
+     * apply taskVisitor operation
+     */
+    void accept(TaskVisitor taskVisitor);
 }

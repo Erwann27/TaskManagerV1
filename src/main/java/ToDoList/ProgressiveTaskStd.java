@@ -10,8 +10,8 @@ public class ProgressiveTaskStd implements ProgressiveTask{
     private Priority priority;
     private int estimatedTime;
 
-    public ProgressiveTaskStd(String description, Date deadline, Priority priority, int estimatedTime) {
-        progress = 0;
+    public ProgressiveTaskStd(Double progress, String description, Date deadline, Priority priority, int estimatedTime) {
+        this.progress = progress;
         this.description = description;
         this.deadline = deadline;
         this.priority = priority;
@@ -60,6 +60,11 @@ public class ProgressiveTaskStd implements ProgressiveTask{
     @Override
     public void setPriority(Priority priority) {
         this.priority = priority;
+    }
+
+    @Override
+    public void accept(TaskVisitor taskVisitor) {
+        taskVisitor.visitProgressiveTask(this);
     }
 
     @Override

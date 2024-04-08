@@ -13,7 +13,7 @@ public class ComplexTask implements Task{
     public ComplexTask(String description, Priority priority) {
         this.priority = priority;
         this.description = description;
-        subTasks = new ArrayList<Task>();
+        subTasks = new ArrayList<>();
     }
 
     @Override
@@ -83,6 +83,11 @@ public class ComplexTask implements Task{
     @Override
     public void setPriority(Priority priority) {
         this.priority = priority;
+    }
+
+    @Override
+    public void accept(TaskVisitor taskVisitor) {
+        taskVisitor.visitComplexTask(this);
     }
 
     public void addSubTask(Task task) {
