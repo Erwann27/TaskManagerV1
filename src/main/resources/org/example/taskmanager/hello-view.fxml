@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<?import javafx.scene.control.Button?>
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="org.example.taskmanager.HelloController">
+<VBox alignment="CENTER" prefHeight="686.0" prefWidth="716.0" spacing="20.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.2-ea" fx:controller="org.example.taskmanager.HelloController">
   <padding>
-    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
   </padding>
+   <TreeTableView prefHeight="200.0" prefWidth="200.0">
+     <columns>
+       <TreeTableColumn prefWidth="75.0" text="C1" />
+       <TreeTableColumn prefWidth="75.0" text="C2" />
+     </columns>
+   </TreeTableView>
 
-  <Label fx:id="welcomeText"/>
-  <Button text="Hello!" onAction="#onHelloButtonClick"/>
+  <Label fx:id="welcomeText" />
+  <Button onAction="#onHelloButtonClick" text="Hello!" />
 </VBox>
