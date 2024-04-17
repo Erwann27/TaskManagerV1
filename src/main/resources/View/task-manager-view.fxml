@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.TaskManagerView">
+   <children>
+      <TreeTableView layoutX="37.0" layoutY="63.0" prefHeight="579.0" prefWidth="795.0" style="-fx-background-color: lightgrey;">
+        <columns>
+          <TreeTableColumn editable="false" prefWidth="171.0" style="-fx-background-color: grey; -fx-color: blue;" text="Task" />
+          <TreeTableColumn prefWidth="170.0" text="Estimated time (d.)" />
+            <TreeTableColumn minWidth="0.0" prefWidth="114.0" text="Priority" />
+            <TreeTableColumn minWidth="0.0" prefWidth="142.0" text="Progression state" />
+            <TreeTableColumn minWidth="0.0" prefWidth="83.0" text="Deadline" />
+        </columns>
+      </TreeTableView>
+   </children>
+</AnchorPane>
