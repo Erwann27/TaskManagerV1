@@ -26,7 +26,7 @@ public class ComplexTask implements Task{
         if(subTasks.isEmpty()) {
             return null;
         }
-        Date deadline = subTasks.get(0).getDeadline();
+        Date deadline = subTasks.getFirst().getDeadline();
         for(Task task : getSubTasks()) {
             if(!(task == this)) {
                 Date taskDeadline = task.getDeadline();
