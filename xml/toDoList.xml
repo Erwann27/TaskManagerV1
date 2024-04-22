@@ -8,7 +8,7 @@
         <priority priority="MINOR"/>
         <estimatedTime days="3"/>
     </booleanTask>
-    <booleanTask finished="false">
+    <booleanTask finished="true">
         <description text="HELLO"/>
         <deadline date="30-02-2027"/>
         <priority priority="MINOR"/>

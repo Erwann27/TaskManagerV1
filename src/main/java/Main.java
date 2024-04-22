@@ -23,7 +23,8 @@ public class Main {
                 throw new RuntimeException(e);
             }
             ToDoList list = builder.createToDoList();
-            list.getTasks().removeIf(task -> task.getDeadline().getTime() <= new Date().getTime());
+            list.getTasks().removeIf(task -> task.getDeadline().getTime() <= new Date().getTime()
+                                        || task.getProgress() == 100);
             list.getTasks().sort(Comparator.comparingLong((Task task) -> task.getDeadline().getTime()));
             int size = Math.min(list.getTasks().size(), 5);
             for (int i = 0; i < size; ++i) {
