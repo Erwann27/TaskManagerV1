@@ -7,4 +7,6 @@ module org.example.taskmanager {
 
     opens org.example.taskmanager to javafx.fxml;
     exports org.example.taskmanager;
+    exports View;
+    exports main;
 }
