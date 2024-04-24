@@ -3,37 +3,27 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.TaskManagerView">
-   <children>
-      <TreeTableView layoutX="37.0" layoutY="63.0" prefHeight="579.0" prefWidth="795.0" style="-fx-background-color: lightgrey;">
-        <columns>
+<VBox xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.TaskManagerApplication">
+    <MenuBar>
+        <Menu mnemonicParsing="false" text="Fichier">
+            <MenuItem mnemonicParsing="false" text="Charger" />
+            <MenuItem mnemonicParsing="false" text="Sauvegarder" />
+            <MenuItem mnemonicParsing="false" text="Fermer" />
+        </Menu>
+        <Menu mnemonicParsing="false" text="Editer">
+            <MenuItem mnemonicParsing="false" text="Créer une tâche" />
+        </Menu>
+        <Menu mnemonicParsing="false" text="Aide">
+            <MenuItem mnemonicParsing="false" text="A propos" />
+        </Menu>
+    </MenuBar>
+    <TreeTableView layoutX="37.0" layoutY="63.0" prefHeight="579.0" prefWidth="795.0" style="-fx-background-color: lightgrey;">
+      <columns>
           <TreeTableColumn editable="false" prefWidth="171.0" style="-fx-background-color: grey; -fx-color: blue;" text="Task" />
           <TreeTableColumn prefWidth="170.0" text="Estimated time (d.)" />
-            <TreeTableColumn minWidth="0.0" prefWidth="114.0" text="Priority" />
-            <TreeTableColumn minWidth="0.0" prefWidth="142.0" text="Progression state" />
-            <TreeTableColumn minWidth="0.0" prefWidth="83.0" text="Deadline" />
-        </columns>
-      </TreeTableView>
-      <MenuBar>
-        <menus>
-          <Menu mnemonicParsing="false" text="Fichier">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Charger" />
-                  <MenuItem mnemonicParsing="false" text="Sauvegarder" />
-                  <MenuItem mnemonicParsing="false" text="Fermer" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Editer">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Créer une tâche" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Aide">
-            <items>
-              <MenuItem mnemonicParsing="false" text="A propos" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
-   </children>
-</AnchorPane>
+          <TreeTableColumn minWidth="0.0" prefWidth="114.0" text="Priority" />
+          <TreeTableColumn minWidth="0.0" prefWidth="142.0" text="Progression state" />
+          <TreeTableColumn minWidth="0.0" prefWidth="83.0" text="Deadline" />
+      </columns>
+    </TreeTableView>
+</VBox>
