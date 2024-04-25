@@ -26,8 +26,10 @@ public interface ToDoListBuilder {
     void setFinished(Boolean finished);
 
     /**
+     * @pre description != null && description.length <= 20
+     * @throw InvalidArgumentException
      * @param description
-     * sets the description of the task
+     * set description of the task
      */
     void setDescription(String description);
 

@@ -1,5 +1,6 @@
 package ToDoList;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -11,6 +12,9 @@ public class ComplexTask implements Task{
     private final List<Task> subTasks;
 
     public ComplexTask(String description, Priority priority) {
+        if (description == null || description.length() > 20) {
+            throw new InvalidParameterException("Invalid description");
+        }
         this.priority = priority;
         this.description = description;
         subTasks = new ArrayList<>();
@@ -77,6 +81,9 @@ public class ComplexTask implements Task{
 
     @Override
     public void setDescription(String description) {
+        if (description == null || description.length() > 20) {
+            throw new InvalidParameterException("Invalid description");
+        }
         this.description = description;
     }
 

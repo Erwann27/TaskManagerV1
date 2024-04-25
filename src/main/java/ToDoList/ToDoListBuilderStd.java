@@ -51,7 +51,7 @@ public class ToDoListBuilderStd implements ToDoListBuilder {
 
     
     public void setDescription(String description) {
-        if (description == null) {
+        if (description == null || description.length() > 20) {
             throw new InvalidParameterException("parameter can't be null");
         }
         tasksDescriptions.poll();

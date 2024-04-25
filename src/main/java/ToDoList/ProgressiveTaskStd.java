@@ -1,5 +1,6 @@
 package ToDoList;
 
+import java.security.InvalidParameterException;
 import java.util.Date;
 
 public class ProgressiveTaskStd implements ProgressiveTask{
@@ -11,6 +12,9 @@ public class ProgressiveTaskStd implements ProgressiveTask{
     private int estimatedTime;
 
     public ProgressiveTaskStd(Double progress, String description, Date deadline, Priority priority, int estimatedTime) {
+        if (description == null || description.length() > 20) {
+            throw new InvalidParameterException("Invalid description");
+        }
         this.progress = progress;
         this.description = description;
         this.deadline = deadline;
@@ -44,6 +48,9 @@ public class ProgressiveTaskStd implements ProgressiveTask{
 
     @Override
     public void setDescription(String description) {
+        if (description == null || description.length() > 20) {
+            throw new InvalidParameterException("Invalid description");
+        }
         this.description = description;
     }
 

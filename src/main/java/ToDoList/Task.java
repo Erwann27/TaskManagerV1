@@ -1,5 +1,6 @@
 package ToDoList;
 
+import java.security.InvalidParameterException;
 import java.util.Date;
 
 
@@ -34,10 +35,12 @@ public interface Task {
     double getProgress();
 
     /**
+     * @pre description != null && description.length <= 20
+     * @throw InvalidArgumentException
      * @param description
      * set description of the task
      */
-    void setDescription(String description);
+    void setDescription(String description) throws InvalidParameterException;
 
     /**
      *

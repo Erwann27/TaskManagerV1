@@ -3,7 +3,7 @@
 
 <toDoList>
     <booleanTask finished="false">
-        <description text="HELLO"/>
+        <description text="HELLOHELLOHELLOHELLO"/>
         <deadline date="30-02-2025"/>
         <priority priority="MINOR"/>
         <estimatedTime days="3"/>

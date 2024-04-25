@@ -1,5 +1,6 @@
 package ToDoList;
 
+import java.security.InvalidParameterException;
 import java.util.Date;
 
 public class BooleanTaskStd implements BooleanTask {
@@ -12,6 +13,9 @@ public class BooleanTaskStd implements BooleanTask {
 
     public BooleanTaskStd(Boolean finished, String description, Date deadline,
                           Priority priority, int estimatedTime) {
+        if (description == null || description.length() > 20) {
+            throw new InvalidParameterException("Invalid description");
+        }
         this.finished = finished;
         this.description = description;
         this.deadline = deadline;
@@ -56,6 +60,9 @@ public class BooleanTaskStd implements BooleanTask {
 
     @Override
     public void setDescription(String description) {
+        if (description == null || description.length() > 20) {
+            throw new InvalidParameterException("Invalid description");
+        }
         this.description = description;
     }
 
