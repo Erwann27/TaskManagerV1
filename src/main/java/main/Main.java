@@ -6,6 +6,7 @@ import ToDoList.ToDoList;
 import ToDoList.Task;
 import ToDoList.ToDoListBuilder;
 import ToDoList.ToDoListBuilderStd;
+import View.TaskManagerApplication;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -39,7 +40,6 @@ public class Main {
             }
 
         } else {
-            // TODO CALL GRAPHIC WINDOW
         }
     }
 }
