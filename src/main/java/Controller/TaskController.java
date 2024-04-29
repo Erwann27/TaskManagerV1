@@ -1,27 +1,29 @@
 package Controller;
 
-import Director.XMLToDoListLoader;
+import Visitor.SaveXMLVisitor;
 import ToDoList.Task;
+import ToDoList.ToDoListBuilder;
+import ToDoList.ToDoListBuilderStd;
+import Director.XMLToDoListLoader;
 import ToDoList.ToDoList;
 import ToDoList.ToDoListStd;
 import ToDoList.TaskFactory;
 import ToDoList.TaskFactoryStd;
 import ToDoList.Priority;
-import ToDoList.ToDoListBuilder;
-import ToDoList.ToDoListBuilderStd;
 import View.TreeTableViewInitializer;
+import Visitor.TreeItemVisitor;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TableColumn;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import org.xml.sax.SAXException;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
+
 import java.io.IOException;
 import java.net.URL;
 import java.security.InvalidParameterException;
@@ -68,7 +70,17 @@ public class TaskController implements Initializable {
     }
     @FXML
     protected void saveFile() {
-        //toDoList.
+        JFileChooser chooser = new JFileChooser();
+        chooser.setCurrentDirectory(new File("/home/me/Documents"));
+        int result = chooser.showSaveDialog(null);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            try {
+                SaveXMLVisitor saveXMLVisitor = new SaveXMLVisitor(chooser.getSelectedFile() + ".xml");
+                saveXMLVisitor.visitToDoList(toDoList);
+            } catch (Exception ex) {
+                throw new RuntimeException();
+            }
+        }
     }
 
     @FXML
@@ -95,10 +107,8 @@ public class TaskController implements Initializable {
             throw new RuntimeException(e);
         }
         toDoList = builder.createToDoList();
-        for (Task task : toDoList.getTasks()) {
-            TreeItem<Task> item = new TreeItem<>(task);
-            treeTable.getRoot().getChildren().add(item);
-        }
+        TreeItemVisitor treeItemVisitor = new TreeItemVisitor(treeTable.getRoot());
+        treeItemVisitor.visitToDoList(toDoList);
         treeTable.refresh();
     }
 
