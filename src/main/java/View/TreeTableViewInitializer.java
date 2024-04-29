@@ -1,11 +1,17 @@
 package View;
 
+import ToDoList.Priority;
 import ToDoList.Task;
 import Visitor.EditVisitor;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTableView;
+import javafx.scene.control.cell.ComboBoxTreeTableCell;
 import javafx.scene.control.cell.TextFieldTreeTableCell;
 import javafx.scene.control.cell.TreeItemPropertyValueFactory;
+import javafx.util.converter.DoubleStringConverter;
+import javafx.util.converter.IntegerStringConverter;
+
+import java.util.Date;
 
 public class TreeTableViewInitializer {
 
@@ -34,34 +40,46 @@ public class TreeTableViewInitializer {
     }
 
     private void createEstimatedTimeColumn() {
-        TreeTableColumn<Task, String> column = new TreeTableColumn<>("Estimated Time (d.)");
+        TreeTableColumn<Task, Integer> column = new TreeTableColumn<>("Estimated Time (d.)");
         column.setCellValueFactory(new TreeItemPropertyValueFactory<>("estimatedTimeInDays"));
-        column.setEditable(true);
+        column.setOnEditCommit(newValue -> editValue(
+                newValue.getRowValue().getValue(), newValue.getNewValue(), EditVisitor.PROPERTY_TIME)
+        );
+        column.setCellFactory(TextFieldTreeTableCell.forTreeTableColumn(new IntegerStringConverter()));
         treeTableView.getColumns().add(column);
     }
 
     private void createPriorityColumn() {
-        TreeTableColumn<Task, String> column = new TreeTableColumn<>("Priority");
+        TreeTableColumn<Task, Priority> column = new TreeTableColumn<>("Priority");
         column.setCellValueFactory(new TreeItemPropertyValueFactory<>("priority"));
-        column.setEditable(true);
+        column.setOnEditCommit(newValue -> editValue(
+                newValue.getRowValue().getValue(), newValue.getNewValue(), EditVisitor.PROPERTY_PRIORITY)
+        );
+        column.setCellFactory(col -> new ComboBoxTreeTableCell<>());
         treeTableView.getColumns().add(column);
     }
 
     private void createProgressionColumn() {
-        TreeTableColumn<Task, String> column = new TreeTableColumn<>("Progression");
+        TreeTableColumn<Task, Double> column = new TreeTableColumn<>("Progression");
         column.setCellValueFactory(new TreeItemPropertyValueFactory<>("progress"));
-        column.setEditable(true);
+        column.setOnEditCommit(newValue -> editValue(
+                newValue.getRowValue().getValue(), newValue.getNewValue(), EditVisitor.PROPERTY_PROGRESS)
+        );
+        column.setCellFactory(TextFieldTreeTableCell.forTreeTableColumn(new DoubleStringConverter()));
         treeTableView.getColumns().add(column);
     }
 
     private void createDeadlineColumn() {
-        TreeTableColumn<Task, String> column = new TreeTableColumn<>("Deadline");
+        TreeTableColumn<Task, Date> column = new TreeTableColumn<>("Deadline");
         column.setCellValueFactory(new TreeItemPropertyValueFactory<>("deadline"));
-        column.setEditable(true);
+        column.setOnEditCommit(newValue -> editValue(
+                newValue.getRowValue().getValue(), newValue.getNewValue(), EditVisitor.PROPERTY_DEADLINE)
+        );
+        //column.setCellFactory(TextFieldTreeTableCell.forTreeTableColumn());
         treeTableView.getColumns().add(column);
     }
 
-    private void editValue(Task value, String newValue, String property) {
+    private void editValue(Task value, Object newValue, String property) {
         EditVisitor taskVisitor = new EditVisitor(property, newValue);
         taskVisitor.visit(value);
         treeTableView.refresh();
