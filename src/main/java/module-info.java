@@ -9,7 +9,10 @@ module org.example.taskmanager {
     opens org.example.taskmanager to javafx.fxml;
     opens ToDoList to javafx.base;
     opens View to javafx.fxml;
+    opens Controller to javafx.fxml;
     exports org.example.taskmanager;
+    exports ToDoList;
+    exports Controller;
     exports View;
     exports main;
 }
