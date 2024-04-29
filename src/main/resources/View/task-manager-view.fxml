@@ -3,27 +3,20 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.TaskManagerApplication">
+<VBox xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.TaskController">
     <MenuBar>
-        <Menu mnemonicParsing="false" text="Fichier">
-            <MenuItem mnemonicParsing="false" text="Charger" />
-            <MenuItem mnemonicParsing="false" text="Sauvegarder" />
-            <MenuItem mnemonicParsing="false" text="Fermer" />
+        <Menu mnemonicParsing="false" text="File">
+            <MenuItem mnemonicParsing="false" text="Load" onAction="#loadFile" />
+            <MenuItem mnemonicParsing="false" text="Save" onAction="#saveFile"/>
+            <MenuItem mnemonicParsing="false" text="Close" onAction="#closeApp" />
         </Menu>
-        <Menu mnemonicParsing="false" text="Editer">
-            <MenuItem mnemonicParsing="false" text="Créer une tâche" />
+        <Menu mnemonicParsing="false" text="Edit">
+            <MenuItem mnemonicParsing="false" text="Create a task" onAction="#createTask" />
         </Menu>
-        <Menu mnemonicParsing="false" text="Aide">
-            <MenuItem mnemonicParsing="false" text="A propos" />
+        <Menu mnemonicParsing="false" text="Help">
+            <MenuItem mnemonicParsing="false" text="About" />
         </Menu>
     </MenuBar>
-    <TreeTableView layoutX="37.0" layoutY="63.0" prefHeight="579.0" prefWidth="795.0" style="-fx-background-color: lightgrey;">
-      <columns>
-          <TreeTableColumn editable="false" prefWidth="171.0" style="-fx-background-color: grey; -fx-color: blue;" text="Task" />
-          <TreeTableColumn prefWidth="170.0" text="Estimated time (d.)" />
-          <TreeTableColumn minWidth="0.0" prefWidth="114.0" text="Priority" />
-          <TreeTableColumn minWidth="0.0" prefWidth="142.0" text="Progression state" />
-          <TreeTableColumn minWidth="0.0" prefWidth="83.0" text="Deadline" />
-      </columns>
+    <TreeTableView fx:id="treeTable" layoutX="37.0" layoutY="63.0" prefHeight="579.0" prefWidth="795.0" style="-fx-background-color: lightgrey;">
     </TreeTableView>
 </VBox>
