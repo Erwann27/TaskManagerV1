@@ -3,6 +3,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
 <VBox xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.TaskController">
     <MenuBar>
         <Menu mnemonicParsing="false" text="File">
@@ -19,4 +21,34 @@
     </MenuBar>
     <TreeTableView fx:id="treeTable" layoutX="37.0" layoutY="63.0" prefHeight="579.0" prefWidth="795.0" style="-fx-background-color: lightgrey;">
     </TreeTableView>
+    <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="232.0" prefWidth="471.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+        <Button layoutX="295.0" layoutY="173.0" mnemonicParsing="false" text="Create Task !" onAction="#createTask"/>
+        <DatePicker fx:id="date"  layoutX="28.0" layoutY="104.0" prefHeight="24.0" prefWidth="171.0" promptText="Deadline" />
+        <TextField fx:id="desc" layoutX="262.0" layoutY="104.0" promptText="Description" />
+        <TextField fx:id="time" layoutX="28.0" layoutY="173.0" promptText="Estimated time" />
+        <ChoiceBox fx:id="type" layoutX="28.0" layoutY="26.0" prefHeight="24.0" prefWidth="171.0" value="Progressive Task">
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                    <String fx:value="Progressive Task"/>
+                    <String fx:value="Boolean Task"/>
+                    <String fx:value="Complex Task"/>
+                </FXCollections>
+            </items>
+        </ChoiceBox>
+        <ChoiceBox fx:id="priority" layoutX="262.0" layoutY="26.0" prefHeight="24.0" prefWidth="171.0" value="Normal">
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                    <String fx:value="Urgent"/>
+                    <String fx:value="Normal"/>
+                    <String fx:value="Minor"/>
+                </FXCollections>
+            </items>
+        </ChoiceBox>      <Label layoutX="80.0" layoutY="6.0" text="Task Type" />
+        <Label layoutX="313.0" layoutY="6.0" text="Priority" />
+        <Label layoutX="85.0" layoutY="81.0" text="Deadline" />
+        <Label layoutX="310.0" layoutY="81.0" text="Description" />
+        <Label layoutX="62.0" layoutY="149.0" text="Estimated Time" />
+    </AnchorPane>
 </VBox>
+
+
