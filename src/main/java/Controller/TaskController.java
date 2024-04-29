@@ -1,30 +1,24 @@
 package Controller;
 
-import Director.XMLToDoListLoader;
+import SaveXML.SaveXMLVisitor;
 import ToDoList.Task;
 import ToDoList.ToDoList;
 import ToDoList.ToDoListStd;
 import ToDoList.TaskFactory;
 import ToDoList.TaskFactoryStd;
 import ToDoList.Priority;
-import ToDoList.ToDoListBuilder;
-import ToDoList.ToDoListBuilderStd;
 import View.TreeTableViewInitializer;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TableColumn;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableView;
-import javafx.scene.control.cell.PropertyValueFactory;
-import org.xml.sax.SAXException;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
+import java.io.File;
+
 import java.net.URL;
-import java.security.InvalidParameterException;
 import java.util.ResourceBundle;
 
 public class TaskController implements Initializable {
@@ -68,7 +62,17 @@ public class TaskController implements Initializable {
     }
     @FXML
     protected void saveFile() {
-        //toDoList.
+        SaveXMLVisitor saveXMLVisitor = new SaveXMLVisitor();
+        JFileChooser chooser = new JFileChooser();
+        chooser.setCurrentDirectory(new File("/home/me/Documents"));
+        int result = chooser.showSaveDialog(null);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            try {
+                saveXMLVisitor.saveFile(chooser.getSelectedFile() + ".xml", toDoList);
+            } catch (Exception ex) {
+                throw new RuntimeException();
+            }
+        }
     }
 
     @FXML
