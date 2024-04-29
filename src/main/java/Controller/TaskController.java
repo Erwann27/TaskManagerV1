@@ -41,8 +41,35 @@ public class TaskController implements Initializable {
         taskFactory = new TaskFactoryStd();
     }
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        TreeTableViewInitializer treeTableViewInitializer = new TreeTableViewInitializer(treeTable);
+        treeTableViewInitializer.initColumns();
+        TreeItem<Task> root = new TreeItem<>(
+                taskFactory.createProgressiveTask(0.0, "To-Do List"
+                        , null, null, 0)
+        );
+        root.setExpanded(true);
+        treeTable.setRoot(root);
+        treeTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+    }
+
+
     @FXML
     protected void closeApp() { System.exit(0); }
+
+    @FXML
+    protected void createTask() {
+        Task newTask = taskFactory.createBooleanTask(false, "hello", null, Priority.MINOR, 12);
+        TreeItem<Task> newItem = new TreeItem<>(newTask);
+        toDoList.addTask(newTask);
+        treeTable.getRoot().getChildren().add(newItem);
+        treeTable.refresh();
+    }
+    @FXML
+    protected void saveFile() {
+        //toDoList.
+    }
 
     @FXML
     protected void loadFile() {
@@ -56,17 +83,6 @@ public class TaskController implements Initializable {
         }*/
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        TreeTableViewInitializer treeTableViewInitializer = new TreeTableViewInitializer(treeTable);
-        treeTableViewInitializer.initColumns();
-        /*TreeItem<Task> root = new TreeItem<>(
-                taskFactory.createProgressiveTask(0.0, "root", null, Priority.MINOR, 12)
-        );
-        root.setExpanded(true);
-        treeTable.setRoot(root);*/
-        treeTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-    }
 
    /* private void openXML(String fileName) {
         ToDoListBuilder builder = new ToDoListBuilderStd();
