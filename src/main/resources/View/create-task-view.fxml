@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="232.0" prefWidth="471.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Button layoutX="295.0" layoutY="173.0" mnemonicParsing="false" text="Create Task !" />
+      <DatePicker layoutX="28.0" layoutY="104.0" prefHeight="24.0" prefWidth="171.0" promptText="Deadline" />
+      <TextField layoutX="262.0" layoutY="104.0" promptText="Description" />
+      <TextField layoutX="28.0" layoutY="173.0" promptText="Estimated time" />
+      <ChoiceBox layoutX="28.0" layoutY="26.0" prefHeight="24.0" prefWidth="171.0" />
+      <ChoiceBox layoutX="262.0" layoutY="26.0" prefHeight="24.0" prefWidth="171.0" />
+      <Label layoutX="80.0" layoutY="6.0" text="Task Type" />
+      <Label layoutX="313.0" layoutY="6.0" text="Priority" />
+      <Label layoutX="85.0" layoutY="81.0" text="Deadline" />
+      <Label layoutX="310.0" layoutY="81.0" text="Description" />
+      <Label layoutX="62.0" layoutY="149.0" text="Estimated Time" />
+   </children>
+</AnchorPane>
