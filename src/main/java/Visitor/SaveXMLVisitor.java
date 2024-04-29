@@ -1,4 +1,4 @@
-package SaveXML;
+package Visitor;
 
 import ToDoList.*;
 
@@ -11,12 +11,13 @@ import java.util.Queue;
 
 public class SaveXMLVisitor implements TaskVisitor {
 
-    private BufferedWriter writer;
+    private final BufferedWriter writer;
     private final Queue<Task> offset;
 
 
-    public SaveXMLVisitor() {
+    public SaveXMLVisitor(String fileName) throws IOException {
         offset = Collections.asLifoQueue(new ArrayDeque<>());
+        writer = new BufferedWriter(new FileWriter(fileName, false));
     }
 
     @Override
@@ -74,8 +75,7 @@ public class SaveXMLVisitor implements TaskVisitor {
     }
 
     @Override
-    public void saveFile(String fileName, ToDoList toDoList) throws IOException {
-        writer = new BufferedWriter(new FileWriter("test.xml", false));
+    public void visitToDoList(ToDoList toDoList) {
         try {
             writer.append("""
                         <?xml version="1.0" encoding="UTF-8"?>
@@ -92,7 +92,11 @@ public class SaveXMLVisitor implements TaskVisitor {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        writer.close();
+        try {
+            writer.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**

@@ -1,7 +1,5 @@
 package ToDoList;
 
-import java.io.IOException;
-
 public interface TaskVisitor {
 
     /**
@@ -23,10 +21,8 @@ public interface TaskVisitor {
     void visitComplexTask(ComplexTask complexTask);
 
     /**
-     *
-     * @param fileName the fileName in which content will be saved
-     * @param toDoList the list of tasks saved
-     * do action
+     * @param toDoList
+     * do action on the To-Do List
      */
-    void saveFile(String fileName, ToDoList toDoList) throws IOException;
+    void visitToDoList(ToDoList toDoList);
 }
