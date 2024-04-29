@@ -9,14 +9,18 @@ import ToDoList.TaskFactoryStd;
 import ToDoList.Priority;
 import ToDoList.ToDoListBuilder;
 import ToDoList.ToDoListBuilderStd;
+import View.TaskManagerApplication;
 import View.TreeTableViewInitializer;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import org.xml.sax.SAXException;
 
 import javax.swing.*;
@@ -59,12 +63,18 @@ public class TaskController implements Initializable {
     protected void closeApp() { System.exit(0); }
 
     @FXML
-    protected void createTask() {
-        Task newTask = taskFactory.createBooleanTask(false, "hello", null, Priority.MINOR, 12);
+    protected void createTask() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(TaskManagerApplication.class.getResource("create-task-view.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 475, 225);
+        Stage stage = new Stage();
+        stage.setTitle("Create task");
+        stage.setScene(scene);
+        stage.show();
+        /*Task newTask = taskFactory.createBooleanTask(false, "hello", null, Priority.MINOR, 12);
         TreeItem<Task> newItem = new TreeItem<>(newTask);
         toDoList.addTask(newTask);
         treeTable.getRoot().getChildren().add(newItem);
-        treeTable.refresh();
+        treeTable.refresh();*/
     }
     @FXML
     protected void saveFile() {
