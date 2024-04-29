@@ -34,7 +34,7 @@ public class TaskController implements Initializable {
 
     private final TaskFactory taskFactory;
 
-    private final ToDoList toDoList;
+    private ToDoList toDoList;
 
     public TaskController() {
         toDoList = new ToDoListStd();
@@ -78,13 +78,13 @@ public class TaskController implements Initializable {
                 "XML files", "xml");
         chooser.setFileFilter(filter);
         int returnVal = chooser.showOpenDialog(null);
-        /*if(returnVal == JFileChooser.APPROVE_OPTION) {
+        if(returnVal == JFileChooser.APPROVE_OPTION) {
             openXML(chooser.getSelectedFile().getAbsolutePath());
-        }*/
+        }
     }
 
 
-   /* private void openXML(String fileName) {
+    private void openXML(String fileName) {
         ToDoListBuilder builder = new ToDoListBuilderStd();
         try {
             XMLToDoListLoader.load(fileName, builder);
@@ -95,8 +95,11 @@ public class TaskController implements Initializable {
             throw new RuntimeException(e);
         }
         toDoList = builder.createToDoList();
-        TableColumn<Task, String> descColumn = new TableColumn<>("Description");
-        descColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
-    }*/
+        for (Task task : toDoList.getTasks()) {
+            TreeItem<Task> item = new TreeItem<>(task);
+            treeTable.getRoot().getChildren().add(item);
+        }
+        treeTable.refresh();
+    }
 
 }
