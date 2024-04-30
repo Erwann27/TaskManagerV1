@@ -11,6 +11,8 @@ public class ProgressiveTaskStd implements ProgressiveTask{
     private Priority priority;
     private int estimatedTime;
 
+    private ComplexTask parent;
+
     public ProgressiveTaskStd(Double progress, String description, Date deadline, Priority priority, int estimatedTime) {
         if (description == null || description.length() > 20) {
             throw new InvalidParameterException("Invalid description");
@@ -21,11 +23,15 @@ public class ProgressiveTaskStd implements ProgressiveTask{
         this.priority = priority;
         this.estimatedTime = estimatedTime;
     }
+
+    public ComplexTask getParent() {
+        return parent;
+    }
+
     @Override
     public double getProgress() {
         return progress;
     }
-
     @Override
     public String getDescription() {
         return description;
@@ -67,6 +73,10 @@ public class ProgressiveTaskStd implements ProgressiveTask{
     @Override
     public void setPriority(Priority priority) {
         this.priority = priority;
+    }
+
+    public void setParent(ComplexTask parent) {
+        this.parent = parent;
     }
 
     @Override

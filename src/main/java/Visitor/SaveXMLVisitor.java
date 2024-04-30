@@ -5,9 +5,9 @@ import ToDoList.*;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayDeque;
-import java.util.Collections;
-import java.util.Queue;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class SaveXMLVisitor implements TaskVisitor {
 
@@ -24,7 +24,11 @@ public class SaveXMLVisitor implements TaskVisitor {
     public void visitBooleanTask(BooleanTask booleanTask) {
         String shift = updateShift();
         String result = shift + "<booleanTask finished=\"" + (booleanTask.isFinished()) + "\">\n";
-        result += printTask(booleanTask);
+        try {
+            result += printTask(booleanTask);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
         shift = updateShift();
         result += shift + "</booleanTask>" + "\n";
         try {
@@ -38,7 +42,11 @@ public class SaveXMLVisitor implements TaskVisitor {
     public void visitProgressiveTask(ProgressiveTask progressiveTask) {
         String shift = updateShift();
         String result = shift + "<progressiveTask progress=\"" + (progressiveTask.getProgress()) + "\">" + "\n";
-        result += printTask(progressiveTask);
+        try {
+            result += printTask(progressiveTask);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
         shift = updateShift();
         result += shift + "</progressiveTask>" + "\n";
         try {
@@ -113,12 +121,14 @@ public class SaveXMLVisitor implements TaskVisitor {
      * @return String
      * print the common fields of a task
      */
-    private String printTask(Task task) {
+    private String printTask(Task task) throws ParseException {
         offset.add(task);
         String shift = updateShift();
         offset.remove(task);
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy", Locale.FRENCH);
+        String date = formatter.format(task.getDeadline());
         return shift + "<description text=\"" + task.getDescription() + "\"/>\n" +
-                shift + "<deadline date=\"" + task.getDeadline() + "\"/>\n" +
+                shift + "<deadline date=\"" + date + "\"/>\n" +
                 shift + "<priority priority=\"" + task.getPriority() + "\"/>\n" +
                 shift + "<estimatedTime days=\"" + (task.getEstimatedTimeInDays()) + "\"/>\n";
     }

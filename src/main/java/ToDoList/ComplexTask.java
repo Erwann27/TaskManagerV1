@@ -9,6 +9,9 @@ public class ComplexTask implements Task{
 
     private Priority priority;
     private String description;
+
+    private ComplexTask parent;
+
     private final List<Task> subTasks;
 
     public ComplexTask(String description, Priority priority) {
@@ -20,6 +23,10 @@ public class ComplexTask implements Task{
         subTasks = new ArrayList<>();
     }
 
+    public ComplexTask getParent() {
+        return parent;
+    }
+
     @Override
     public String getDescription() {
         return description;
@@ -28,7 +35,7 @@ public class ComplexTask implements Task{
     @Override
     public Date getDeadline() {
         if(subTasks.isEmpty()) {
-            return null;
+            return new Date();
         }
         Date deadline = subTasks.getFirst().getDeadline();
         for(Task task : getSubTasks()) {
@@ -92,6 +99,10 @@ public class ComplexTask implements Task{
         this.priority = priority;
     }
 
+    public void setParent(ComplexTask parent) {
+        this.parent = parent;
+    }
+
     @Override
     public void accept(TaskVisitor taskVisitor) {
         taskVisitor.visitComplexTask(this);
@@ -99,5 +110,6 @@ public class ComplexTask implements Task{
 
     public void addSubTask(Task task) {
         subTasks.add(task);
+        task.setParent(this);
     }
 }

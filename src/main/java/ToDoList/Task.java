@@ -35,6 +35,11 @@ public interface Task {
     double getProgress();
 
     /**
+     * @return the parent of the task
+     */
+    ComplexTask getParent();
+
+    /**
      * @pre description != null && description.length <= 20
      * @throw InvalidArgumentException
      * @param description
@@ -48,6 +53,13 @@ public interface Task {
      * set task priority
      */
     void setPriority(Priority priority);
+
+
+    /**
+     * @param task
+     * set the task's parent
+     */
+    void setParent(ComplexTask task);
 
     /**
      *
