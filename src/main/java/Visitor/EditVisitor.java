@@ -2,6 +2,8 @@ package Visitor;
 
 import ToDoList.*;
 
+import java.util.Date;
+
 public class EditVisitor implements TaskVisitor {
 
     public final static String PROPERTY_DESC = "description";
@@ -27,9 +29,9 @@ public class EditVisitor implements TaskVisitor {
         switch (propertyName) {
             case PROPERTY_DESC -> booleanTask.setDescription((String) value);
             case PROPERTY_TIME -> booleanTask.setEstimatedTimeInDays((Integer) value);
-            case PROPERTY_PROGRESS -> booleanTask.setFinished((Integer) value != 0);
-            case PROPERTY_PRIORITY -> booleanTask.setPriority(Priority.valueOf((String) value));
-            case PROPERTY_DEADLINE -> booleanTask.setDeadline(null);
+            case PROPERTY_PROGRESS -> booleanTask.setFinished((Double) value != 0);
+            case PROPERTY_PRIORITY -> booleanTask.setPriority((Priority) value);
+            case PROPERTY_DEADLINE -> booleanTask.setDeadline((Date) value);
         }
      }
 
@@ -39,8 +41,8 @@ public class EditVisitor implements TaskVisitor {
             case PROPERTY_DESC -> progressiveTask.setDescription((String) value);
             case PROPERTY_TIME -> progressiveTask.setEstimatedTimeInDays((Integer) value);
             case PROPERTY_PROGRESS -> progressiveTask.setProgress((Double) value);
-            case PROPERTY_PRIORITY -> progressiveTask.setPriority(Priority.valueOf((String) value));
-            case PROPERTY_DEADLINE -> progressiveTask.setDeadline(null);
+            case PROPERTY_PRIORITY -> progressiveTask.setPriority((Priority) value);
+            case PROPERTY_DEADLINE -> progressiveTask.setDeadline((Date) value);
         }
     }
 
@@ -48,7 +50,7 @@ public class EditVisitor implements TaskVisitor {
     public void visitComplexTask(ComplexTask complexTask) {
         switch (propertyName) {
             case PROPERTY_DESC -> complexTask.setDescription((String) value);
-            case PROPERTY_PRIORITY -> complexTask.setPriority(Priority.valueOf((String) value));
+            case PROPERTY_PRIORITY -> complexTask.setPriority((Priority) value);
         }
     }
 
