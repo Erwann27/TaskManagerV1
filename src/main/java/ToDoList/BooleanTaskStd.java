@@ -11,6 +11,8 @@ public class BooleanTaskStd implements BooleanTask {
     private Priority priority;
     private int estimatedTime;
 
+    private ComplexTask parent;
+
     public BooleanTaskStd(Boolean finished, String description, Date deadline,
                           Priority priority, int estimatedTime) {
         if (description == null || description.length() > 20) {
@@ -21,6 +23,10 @@ public class BooleanTaskStd implements BooleanTask {
         this.deadline = deadline;
         this.priority = priority;
         this.estimatedTime = estimatedTime;
+    }
+
+    public ComplexTask getParent() {
+        return parent;
     }
 
     @Override
@@ -79,6 +85,10 @@ public class BooleanTaskStd implements BooleanTask {
     @Override
     public void setPriority(Priority priority) {
         this.priority = priority;
+    }
+
+    public void setParent(ComplexTask parent) {
+        this.parent = parent;
     }
 
     @Override

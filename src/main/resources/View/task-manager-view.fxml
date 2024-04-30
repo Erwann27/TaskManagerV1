@@ -12,9 +12,6 @@
             <MenuItem mnemonicParsing="false" text="Save" onAction="#saveFile"/>
             <MenuItem mnemonicParsing="false" text="Close" onAction="#closeApp" />
         </Menu>
-        <Menu mnemonicParsing="false" text="Edit">
-            <MenuItem mnemonicParsing="false" text="Create a task" onAction="#createTask" />
-        </Menu>
         <Menu mnemonicParsing="false" text="Help">
             <MenuItem mnemonicParsing="false" text="About" />
         </Menu>
@@ -48,6 +45,8 @@
         <Label layoutX="85.0" layoutY="81.0" text="Deadline" />
         <Label layoutX="310.0" layoutY="81.0" text="Description" />
         <Label layoutX="62.0" layoutY="149.0" text="Estimated Time" />
+        <Button layoutX="650.0" layoutY="80.0" mnemonicParsing="false" text="Delete Task" onAction="#deleteTask"/>
+
     </AnchorPane>
 </VBox>
 

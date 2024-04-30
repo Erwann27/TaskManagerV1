@@ -63,6 +63,7 @@ public class TaskController implements Initializable {
         root.setExpanded(true);
         treeTable.setEditable(true);
         treeTable.setRoot(root);
+        treeTable.setShowRoot(false);
         treeTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         date.setValue(LocalDate.now());
         type.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
@@ -108,6 +109,22 @@ public class TaskController implements Initializable {
             treeTable.getRoot().getChildren().add(item);
         }
         treeTable.refresh();
+    }
+
+    @FXML
+    protected void deleteTask() {
+        TreeItem<Task> taskTreeItem = treeTable.getSelectionModel().getSelectedItem();
+        if (taskTreeItem != null) {
+            Task selectedTask = taskTreeItem.getValue();
+            ComplexTask parent = selectedTask.getParent();
+            if (parent == null) {
+                toDoList.deleteTask(selectedTask);
+                treeTable.getRoot().getChildren().remove(taskTreeItem);
+            } else {
+                parent.getSubTasks().remove(selectedTask);
+                taskTreeItem.getParent().getChildren().remove(taskTreeItem);
+            }
+        }
     }
     @FXML
     protected void saveFile() {
