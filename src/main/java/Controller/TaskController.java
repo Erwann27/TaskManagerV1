@@ -4,6 +4,7 @@ import Director.XMLToDoListLoader;
 import ToDoList.*;
 import View.TreeTableViewInitializer;
 import Visitor.SaveXMLVisitor;
+import Visitor.SubTaskVisitor;
 import Visitor.TreeItemVisitor;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -96,9 +97,16 @@ public class TaskController implements Initializable {
             case "Complex Task" -> taskFactory.createComplexTask(description, priority);
             default -> null;
         };
-        toDoList.addTask(task);
-        TreeItem<Task> item = new TreeItem<>(task);
-        treeTable.getRoot().getChildren().add(item);
+        TreeItem<Task> taskTreeItem = treeTable.getSelectionModel().getSelectedItem();
+        if (taskTreeItem != null) {
+            Task selectedTask = taskTreeItem.getValue();
+            SubTaskVisitor subTaskVisitor = new SubTaskVisitor(toDoList, task, treeTable);
+            subTaskVisitor.visit(selectedTask);
+        } else {
+            toDoList.addTask(task);
+            TreeItem<Task> item = new TreeItem<>(task);
+            treeTable.getRoot().getChildren().add(item);
+        }
         treeTable.refresh();
     }
     @FXML
@@ -118,6 +126,8 @@ public class TaskController implements Initializable {
 
     @FXML
     protected void loadFile() {
+        treeTable.getRoot().getChildren().clear();
+        toDoList = new ToDoListStd();
         JFileChooser chooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter(
                 "XML files", "xml");

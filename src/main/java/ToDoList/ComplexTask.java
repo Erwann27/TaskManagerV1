@@ -9,6 +9,7 @@ public class ComplexTask implements Task{
 
     private Priority priority;
     private String description;
+
     private final List<Task> subTasks;
 
     public ComplexTask(String description, Priority priority) {
@@ -28,7 +29,7 @@ public class ComplexTask implements Task{
     @Override
     public Date getDeadline() {
         if(subTasks.isEmpty()) {
-            return null;
+            return new Date();
         }
         Date deadline = subTasks.getFirst().getDeadline();
         for(Task task : getSubTasks()) {
