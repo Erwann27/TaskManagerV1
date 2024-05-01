@@ -143,8 +143,6 @@ public class TaskController implements Initializable {
 
     @FXML
     protected void loadFile() {
-        treeTable.getRoot().getChildren().clear();
-        toDoList = new ToDoListStd();
         JFileChooser chooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter(
                 "XML files", "xml");
@@ -166,6 +164,7 @@ public class TaskController implements Initializable {
             System.out.println("Error: All tasks must have a description length of 20 max!");
             throw new RuntimeException(e);
         }
+        treeTable.getRoot().getChildren().clear();
         toDoList = builder.createToDoList();
         TreeItemVisitor treeItemVisitor = new TreeItemVisitor(treeTable.getRoot());
         treeItemVisitor.visitToDoList(toDoList);
