@@ -19,6 +19,7 @@ public class TaskTop {
     public static void main(String[] args) {
         if (args.length != 1) {
             System.out.println("You must provide exactly one XML file");
+            return;
         }
         String fileName = args[0];
         ToDoListBuilder builder = new ToDoListBuilderStd();
