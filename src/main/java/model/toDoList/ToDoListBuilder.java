@@ -2,78 +2,81 @@ package model.toDoList;
 
 import java.util.Date;
 
+/**
+ * The builder responsible for creating tasks.
+ */
 public interface ToDoListBuilder {
 
     /**
-     * starts a BooleanTask element
+     * startBooleanTask: starts to create a boolean task.
      */
     void startBooleanTask();
 
     /**
-     * starts a ProgressiveTask element
+     * startProgressiveTask: starts to create a progressive task.
      */
     void startProgressiveTask();
 
     /**
-     * starts a ComplexTask element
+     * startComplexTask: starts to create a complex task.
      */
     void startComplexTask();
 
     /**
-     * @param finished
-     * indicates if the task is finished
+     * setFinished: sets a new state to the task currently creating.
+     * @param finished the state of the task
      */
     void setFinished(Boolean finished);
 
     /**
+     * setDescription: sets a new description for the task currently creating.
      * @pre description != null && description.length <= 20
      * @throw InvalidArgumentException
-     * @param description
-     * set description of the task
+     * @param description the description of the task.
      */
     void setDescription(String description);
 
     /**
-     * @param days
-     * sets the estimated time of the task
+     * setEstimatedTimeInDays: sets a new amount of days to the task currently creating.
+     * @param days the amount of days of the task
      */
     void setEstimatedTime(Integer days);
 
     /**
-     * @param deadline
-     * sets the deadline of the task
+     * setDeadline: sets a new deadline to the task currently creating.
+     * @param deadline the end date of the task
      */
     void setDeadline(Date deadline);
 
     /**
-     * @param progress
-     * sets the progress of the task
+     * setProgress: sets a new percentage completion to the task currently creating.
+     * @param progress the percentage of completion of the task
      */
     void setProgress(Double progress);
 
     /**
-     * @param priority
-     * sets the priority of the task
+     * setPriority: sets a new priority level to the task currently creating.
+     * @param priority the priority level of the task
      */
     void setPriority(Priority priority);
 
     /**
-     * creates a complex task
+     * createComplexTask: creates a complex task with every information processed before.
      */
     void createComplexTask();
 
     /**
-     * creates a progressive task
+     * createProgressiveTask: creates a progressive task with every information processed before.
      */
     void createProgressiveTask();
 
     /**
-     * creates a boolean task
+     * createBooleanTask: creates a boolean task with every information processed before.
      */
     void createBooleanTask();
 
     /**
-     * creates the toDoList
+     * createToDoList: creates a ToDoList with every task created.
      */
     ToDoList createToDoList();
 }

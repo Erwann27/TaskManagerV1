@@ -16,9 +16,23 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
+/**
+ * The loader responsible to parse an XML file and load its content into a ToDoList with a builder
+ */
 public class XMLToDoListLoader {
 
-    public static void load(String XMLFileName, ToDoListBuilder builder) throws ParserConfigurationException, SAXException, IOException {
+
+    /**
+     * load: parse the given file to load ToDoList content into the builder
+     *
+     * @param XMLFileName the absolute path of the XML file to parse
+     * @param builder the builder responsible for creating and containing the ToDoList
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     * @throws IOException
+     */
+    public static void load(String XMLFileName, ToDoListBuilder builder) throws ParserConfigurationException,
+            SAXException, IOException {
         InputSource is = new InputSource(new BufferedInputStream(Files.newInputStream(Paths.get(XMLFileName))));
         SAXParserFactory spf = SAXParserFactory.newInstance();
         SAXParser sp = spf.newSAXParser();
@@ -32,9 +46,11 @@ public class XMLToDoListLoader {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-
     }
+
+    /**
+     * Class parsing the XML file
+     */
     private static class HandlerImpl extends DefaultHandler implements ContentHandler, ErrorHandler {
         private final ToDoListBuilder builder;
 

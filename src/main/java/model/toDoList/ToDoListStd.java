@@ -4,6 +4,9 @@ import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * An implementation of ToDoList.
+ */
 public class ToDoListStd implements ToDoList {
 
     private final List<Task> tasks;

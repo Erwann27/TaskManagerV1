@@ -7,7 +7,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class ComplexTask implements Task{
+/**
+ * A complex task is a task containing other tasks.
+ */
+public class ComplexTask implements Task {
 
     private Priority priority;
     private String description;
@@ -25,6 +28,7 @@ public class ComplexTask implements Task{
         subTasks = new ArrayList<>();
     }
 
+    @Override
     public ComplexTask getParent() {
         return parent;
     }
@@ -67,6 +71,10 @@ public class ComplexTask implements Task{
         return estimatedTime;
     }
 
+    /**
+     * getSubTasks: returns every task contained in the complex task
+     * @return List<Task>
+     */
     public List<Task> getSubTasks() {
         return subTasks;
     }
@@ -101,6 +109,7 @@ public class ComplexTask implements Task{
         this.priority = priority;
     }
 
+    @Override
     public void setParent(ComplexTask parent) {
         this.parent = parent;
     }
@@ -110,8 +119,27 @@ public class ComplexTask implements Task{
         taskVisitor.visitComplexTask(this);
     }
 
+    /**
+     * addSubTask: adds a new task to the complex task
+     *
+     * @param task the new task added
+     * @post task.getParent() == this
+     * @post this.getSubTasks().contains(task)
+     */
     public void addSubTask(Task task) {
         subTasks.add(task);
         task.setParent(this);
+    }
+
+    /**
+     * removeSubTask: removes the task from the complex task
+     *
+     * @param task the task removed
+     * @post task.getParent() == null
+     * @post !this.getSubTasks().contains(task)
+     */
+    public void removeSubTask(Task task) {
+        task.setParent(null);
+        subTasks.remove(task);
     }
 }

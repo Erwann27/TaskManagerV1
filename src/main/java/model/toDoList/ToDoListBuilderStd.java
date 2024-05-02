@@ -3,6 +3,9 @@ package model.toDoList;
 import java.security.InvalidParameterException;
 import java.util.*;
 
+/**
+ * The implementation of TodoListBuilder
+ */
 public class ToDoListBuilderStd implements ToDoListBuilder {
 
     private final ToDoList toDoList;
@@ -135,7 +138,7 @@ public class ToDoListBuilderStd implements ToDoListBuilder {
 
 
     /**
-     * initializes a new simple task
+     * startTask: initializes a new task by resetting every attribute of the class
      */
     private void startTask() {
         finished = null;

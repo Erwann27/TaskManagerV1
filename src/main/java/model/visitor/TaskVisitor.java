@@ -4,23 +4,29 @@ import model.toDoList.BooleanTask;
 import model.toDoList.ComplexTask;
 import model.toDoList.ProgressiveTask;
 
+/**
+ * TaskVisitor permits its implementors to do operations on all tasks.
+ */
 public interface TaskVisitor {
 
     /**
-     * @param booleanTask
-     * do action on boolean task
+     * visitBooleanTask: the implementor visits a boolean task.
+     *
+     * @param booleanTask the visited task
      */
     void visitBooleanTask(BooleanTask booleanTask);
 
     /**
-     * @param progressiveTask
-     * do action on progressive task
+     * visitProgressiveTask: the implementor visits a progressive task.
+     *
+     * @param progressiveTask the visited task
      */
     void visitProgressiveTask(ProgressiveTask progressiveTask);
 
     /**
-     * @param complexTask
-     * do action on complex task
+     * visitComplexTask: the implementor visits a complex task.
+     *
+     * @param complexTask the visited task
      */
     void visitComplexTask(ComplexTask complexTask);
 }

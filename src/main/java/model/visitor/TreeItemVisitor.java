@@ -5,6 +5,9 @@ import javafx.scene.control.TreeItem;
 
 import java.util.Stack;
 
+/**
+ * A visitor which permits adding rows to the tree table and keeping the good hierarchy.
+ */
 public class TreeItemVisitor implements TaskVisitor {
 
     private final Stack<TreeItem<Task>> stack = new Stack<>();
@@ -34,6 +37,11 @@ public class TreeItemVisitor implements TaskVisitor {
         stack.pop();
     }
 
+    /**
+     * visitToDoList: visits every task contained into the ToDoList.
+     *
+     * @param toDoList to be displayed
+     */
     public void visitToDoList(ToDoList toDoList)  {
         for (Task task : toDoList.getTasks()) {
             task.accept(this);

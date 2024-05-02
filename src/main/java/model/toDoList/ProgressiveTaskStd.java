@@ -5,7 +5,10 @@ import model.visitor.TaskVisitor;
 import java.security.InvalidParameterException;
 import java.util.Date;
 
-public class ProgressiveTaskStd implements ProgressiveTask{
+/**
+ * An implementation for ProgressiveTask
+ */
+public class ProgressiveTaskStd implements ProgressiveTask {
 
     private double progress;
     private String description;
@@ -26,6 +29,7 @@ public class ProgressiveTaskStd implements ProgressiveTask{
         this.estimatedTime = estimatedTime;
     }
 
+    @Override
     public ComplexTask getParent() {
         return parent;
     }
@@ -77,6 +81,7 @@ public class ProgressiveTaskStd implements ProgressiveTask{
         this.priority = priority;
     }
 
+    @Override
     public void setParent(ComplexTask parent) {
         this.parent = parent;
     }

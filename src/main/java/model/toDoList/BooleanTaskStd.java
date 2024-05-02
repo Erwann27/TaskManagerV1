@@ -5,6 +5,9 @@ import model.visitor.TaskVisitor;
 import java.security.InvalidParameterException;
 import java.util.Date;
 
+/**
+ * The implementation of BooleanTask.
+ */
 public class BooleanTaskStd implements BooleanTask {
 
     private boolean finished;

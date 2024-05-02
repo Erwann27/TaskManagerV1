@@ -5,10 +5,12 @@ import model.toDoList.*;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+/**
+ * A visitor which permits to save the ToDoList into an XML file.
+ */
 public class SaveXMLVisitor implements TaskVisitor {
 
     private final BufferedWriter writer;
@@ -24,11 +26,7 @@ public class SaveXMLVisitor implements TaskVisitor {
     public void visitBooleanTask(BooleanTask booleanTask) {
         String shift = updateShift();
         String result = shift + "<booleanTask finished=\"" + (booleanTask.isFinished()) + "\">\n";
-        try {
-            result += printTask(booleanTask);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
+        result += printTask(booleanTask);
         shift = updateShift();
         result += shift + "</booleanTask>" + "\n";
         try {
@@ -42,11 +40,7 @@ public class SaveXMLVisitor implements TaskVisitor {
     public void visitProgressiveTask(ProgressiveTask progressiveTask) {
         String shift = updateShift();
         String result = shift + "<progressiveTask progress=\"" + (progressiveTask.getProgress()) + "\">" + "\n";
-        try {
-            result += printTask(progressiveTask);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
+        result += printTask(progressiveTask);
         shift = updateShift();
         result += shift + "</progressiveTask>" + "\n";
         try {
@@ -82,6 +76,11 @@ public class SaveXMLVisitor implements TaskVisitor {
         }
     }
 
+    /**
+     * visitToDoList: transforms and saves the list content into an XML file.
+     *
+     * @param toDoList the ToDoList to be saved
+     */
     public void visitToDoList(ToDoList toDoList) {
         try {
             writer.append("""
@@ -107,8 +106,8 @@ public class SaveXMLVisitor implements TaskVisitor {
     }
 
     /**
-     * @return
-     * returns the amount of shifts needed to indent XML file
+     * updateShift: returns the amount of shifts needed to indent XML file
+     * @return String
      */
     private String updateShift() {
         return "\t" +
@@ -116,11 +115,11 @@ public class SaveXMLVisitor implements TaskVisitor {
     }
 
     /**
-     * @param task Task
+     * printTask: prints the common fields of a task into XML fields, following the DTD.
+     * @param task the task to be printed.
      * @return String
-     * print the common fields of a task
      */
-    private String printTask(Task task) throws ParseException {
+    private String printTask(Task task) {
         offset.add(task);
         String shift = updateShift();
         offset.remove(task);

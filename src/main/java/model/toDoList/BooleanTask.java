@@ -1,17 +1,21 @@
 package model.toDoList;
 
 
-public interface BooleanTask extends SimpleTask{
+/**
+ * A boolean task is a simple task with no progression state.
+ * It is finished or not.
+ */
+public interface BooleanTask extends SimpleTask {
 
     /**
-     * @return the boolean value to indicate if task is finished
+     * isFinished: indicates if the task is finished or not
+     * @return boolean
      */
     boolean isFinished();
 
     /**
-     *
-     * @param finished
-     * updates finished parameter of the task
+     * setFinished: changes the state of the task
+     * @param finished the new state of the task
      */
     void setFinished(boolean finished);
 }

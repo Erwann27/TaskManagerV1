@@ -4,6 +4,9 @@ import model.toDoList.*;
 
 import java.util.Date;
 
+/**
+ * A visitor which permits to edit tasks.
+ */
 public class EditVisitor implements TaskVisitor {
 
     public final static String PROPERTY_DESC = "description";
@@ -20,6 +23,10 @@ public class EditVisitor implements TaskVisitor {
         this.value = value;
     }
 
+    /**
+     * visit: edits the task.
+     * @param task the task visited
+     */
     public void visit(Task task) {
         task.accept(this);
     }

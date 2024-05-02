@@ -7,6 +7,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * The graphical application to open, save and edit ToDoLists.
+ */
 public class TaskEdit extends Application {
 
     @Override

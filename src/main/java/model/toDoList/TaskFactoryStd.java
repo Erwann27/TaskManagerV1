@@ -2,7 +2,10 @@ package model.toDoList;
 
 import java.util.Date;
 
-public class TaskFactoryStd implements TaskFactory{
+/**
+ * The implementation of TaskFactory.
+ */
+public class TaskFactoryStd implements TaskFactory {
     @Override
     public BooleanTask createBooleanTask(Boolean isFinished, String description, Date deadline, Priority priority, int estimatedTime) {
         return new BooleanTaskStd(isFinished, description, deadline, priority, estimatedTime);

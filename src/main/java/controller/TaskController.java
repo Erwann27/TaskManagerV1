@@ -26,6 +26,10 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.ResourceBundle;
 
+/**
+ * The controller of the application.
+ * Manages all the actions from the user
+ */
 public class TaskController implements Initializable {
 
     @FXML
@@ -55,6 +59,10 @@ public class TaskController implements Initializable {
         taskFactory = new TaskFactoryStd();
     }
 
+
+    /**
+     * initialize: initializes the tree table, its columns and the tasks creation menu.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         TreeTableViewInitializer treeTableViewInitializer = new TreeTableViewInitializer(treeTable);
@@ -80,9 +88,18 @@ public class TaskController implements Initializable {
         });
     }
 
+    /**
+     * closeApp: closes the graphical window.
+     */
     @FXML
     protected void closeApp() { System.exit(0); }
 
+
+    /**
+     * createTask: creates a new task and adds it the ToDoList.
+     * If the selected task is a complex task then the new task is added as a child of the complex one.
+     * Else the new task is added as a child of the ToDoList.
+     */
     @FXML
     protected void createTask() {
         String taskType = type.getSelectionModel().getSelectedItem();
@@ -114,6 +131,9 @@ public class TaskController implements Initializable {
         treeTable.refresh();
     }
 
+    /**
+     * deleteTask: if a task is selected then it is deleted from the ToDoList.
+     */
     @FXML
     protected void deleteTask() {
         TreeItem<Task> taskTreeItem = treeTable.getSelectionModel().getSelectedItem();
@@ -124,11 +144,15 @@ public class TaskController implements Initializable {
                 toDoList.deleteTask(selectedTask);
                 treeTable.getRoot().getChildren().remove(taskTreeItem);
             } else {
-                parent.getSubTasks().remove(selectedTask);
+                parent.removeSubTask(selectedTask);
                 taskTreeItem.getParent().getChildren().remove(taskTreeItem);
             }
         }
     }
+
+    /**
+     * saveFile: saves the current ToDoList as an XML file into user's selected destination.
+     */
     @FXML
     protected void saveFile() {
         JFileChooser chooser = new JFileChooser();
@@ -144,6 +168,9 @@ public class TaskController implements Initializable {
         }
     }
 
+    /**
+     * loadFile: tries to load the user's selected file and replace current ToDoList's content.
+     */
     @FXML
     protected void loadFile() {
         JFileChooser chooser = new JFileChooser();
@@ -157,10 +184,17 @@ public class TaskController implements Initializable {
     }
 
 
-    private void openXML(String fileName) {
+    /**
+     * openXML: tries to read the selected XML file. On success, the current ToDoList is
+     *  replaced by the content of the file.
+     *
+     * @param filePath the absolute path of the XML file chosen.
+     * @throws RuntimeException if an error occurred or if a task's description exceeds 20 characters
+     */
+    private void openXML(String filePath) {
         ToDoListBuilder builder = new ToDoListBuilderStd();
         try {
-            XMLToDoListLoader.load(fileName, builder);
+            XMLToDoListLoader.load(filePath, builder);
         } catch (ParserConfigurationException | IOException | SAXException e) {
             throw new RuntimeException(e);
         } catch (InvalidParameterException e) {

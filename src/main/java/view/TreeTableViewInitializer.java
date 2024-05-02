@@ -18,6 +18,9 @@ import javafx.util.converter.IntegerStringConverter;
 
 import java.util.Date;
 
+/**
+ * Initializes a tree table view and its columns corresponding to the properties of the tasks.
+ */
 public class TreeTableViewInitializer {
 
     public static final Integer MAX_CHAR = 20;
@@ -28,6 +31,9 @@ public class TreeTableViewInitializer {
         this.treeTableView = treeTableView;
     }
 
+    /**
+     * initColumns: creates and initializes all the columns of the tree tables.
+     */
     public void initColumns() {
         createDescColumn();
         createEstimatedTimeColumn();
@@ -36,6 +42,9 @@ public class TreeTableViewInitializer {
         createDeadlineColumn();
     }
 
+    /**
+     * createDescColumn: creates and adds the description column into the tree table.
+     */
     private void createDescColumn() {
         TreeTableColumn<Task, String> column = new TreeTableColumn<>("Description");
         column.setCellValueFactory(new TreeItemPropertyValueFactory<>("description"));
@@ -62,6 +71,9 @@ public class TreeTableViewInitializer {
         treeTableView.getColumns().add(column);
     }
 
+    /**
+     * createEstimatedTimeColumn: creates and adds the estimated time column into the tree table.
+     */
     private void createEstimatedTimeColumn() {
         TreeTableColumn<Task, Integer> column = new TreeTableColumn<>("Estimated Time (d.)");
         column.setCellValueFactory(new TreeItemPropertyValueFactory<>("estimatedTimeInDays"));
@@ -72,6 +84,10 @@ public class TreeTableViewInitializer {
         treeTableView.getColumns().add(column);
     }
 
+
+    /**
+     * createPriorityColumn: creates and adds the priority column into the tree table.
+     */
     private void createPriorityColumn() {
         TreeTableColumn<Task, Priority> column = new TreeTableColumn<>("Priority");
         column.setCellValueFactory(new TreeItemPropertyValueFactory<>("priority"));
@@ -92,6 +108,9 @@ public class TreeTableViewInitializer {
         treeTableView.getColumns().add(column);
     }
 
+    /**
+     * createProgressionColumn: creates and adds the progression column into the tree table.
+     */
     private void createProgressionColumn() {
         TreeTableColumn<Task, Double> column = new TreeTableColumn<>("Progression");
         column.setCellValueFactory(new TreeItemPropertyValueFactory<>("progress"));
@@ -102,6 +121,10 @@ public class TreeTableViewInitializer {
         treeTableView.getColumns().add(column);
     }
 
+
+    /**
+     * createDeadlineColumn: creates and adds the deadline column into the tree table.
+     */
     private void createDeadlineColumn() {
         TreeTableColumn<Task, Date> column = new TreeTableColumn<>("Deadline");
         column.setCellValueFactory(new TreeItemPropertyValueFactory<>("deadline"));
@@ -112,12 +135,23 @@ public class TreeTableViewInitializer {
         treeTableView.getColumns().add(column);
     }
 
+    /**
+     * editValue: edits the value of the cell.
+     *
+     * @param value the task modified
+     * @param newValue the new value of the cell
+     * @param property the property modified corresponding to the column edited
+     */
     private void editValue(Task value, Object newValue, String property) {
         EditVisitor taskVisitor = new EditVisitor(property, newValue);
         taskVisitor.visit(value);
         treeTableView.refresh();
     }
 
+
+    /**
+     * An internal class to control user's input
+     */
     private class CustomIntegerStringConverter extends IntegerStringConverter {
         private final IntegerStringConverter converter = new IntegerStringConverter();
         @Override
@@ -142,6 +176,9 @@ public class TreeTableViewInitializer {
         }
     }
 
+    /**
+     * An internal class to control user's input
+     */
     private class CustomDoubleStringConverter extends DoubleStringConverter {
         private final DoubleStringConverter converter = new DoubleStringConverter();
         @Override
@@ -169,6 +206,9 @@ public class TreeTableViewInitializer {
         }
     }
 
+    /**
+     * An internal class to control user's input
+     */
     private class CustomDateStringConverter extends DateStringConverter {
         private final DateStringConverter converter = new DateStringConverter();
         @Override
@@ -191,6 +231,13 @@ public class TreeTableViewInitializer {
             return new Date();
         }
     }
+
+    /**
+     * showAlert: creates a popup window to alert the user why his action failed
+     *
+     * @param e the exception caught
+     * @param msg the message to print
+     */
     private void showAlert(Exception e, String msg) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(msg);

@@ -2,22 +2,29 @@ package model.toDoList;
 
 import java.util.List;
 
+/**
+ * An abstraction representing a ToDoList.
+ * A ToDoList is a list of tasks.
+ */
 public interface ToDoList {
 
     /**
-     * returns every task contained in the list
+     * getTasks: returns a list of every task contained in the ToDoList
+     * returns List<Task>
      */
     List<Task> getTasks();
 
     /**
-     * @param task
-     * adds a task to the TodoList
+     * addTask: adds a task to the TodoList
+     *
+     * @param task the new Task
      */
     void addTask(Task task);
 
     /**
-     * @param task
-     * deletes a task from the toDoList
+     * deleteTask: deletes a task from the toDoList
+     *
+     * @param task the task to be removed
      */
     void deleteTask(Task task);
 }
