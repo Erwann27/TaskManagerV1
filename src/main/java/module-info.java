@@ -14,5 +14,6 @@ module org.example.taskmanager {
     exports view;
     exports model.main;
     exports model.visitor;
+    exports model.director;
     opens model.visitor to javafx.base;
 }

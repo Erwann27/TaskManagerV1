@@ -1,0 +1,7 @@
+module:org.example.taskmanager
+controller
+model.director
+model.main
+model.toDoList
+model.visitor
+view
