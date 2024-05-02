@@ -6,11 +6,13 @@ module org.example.taskmanager {
     requires org.kordamp.bootstrapfx.core;
     requires java.desktop;
 
-    opens ToDoList to javafx.base;
-    opens View to javafx.fxml;
-    opens Controller to javafx.fxml;
-    exports ToDoList;
-    exports Controller;
-    exports View;
-    exports main;
+    opens model.toDoList to javafx.base;
+    opens view to javafx.fxml;
+    opens controller to javafx.fxml;
+    exports model.toDoList;
+    exports controller;
+    exports view;
+    exports model.main;
+    exports model.visitor;
+    opens model.visitor to javafx.base;
 }

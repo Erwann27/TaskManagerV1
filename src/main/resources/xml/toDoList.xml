@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE toDoList SYSTEM "src/main/resources/xml/toDoList.dtd">
+
+<toDoList>
+    <booleanTask finished="false">
+        <description text="HELLOHELLOHELLOHELLO"/>
+        <deadline date="30-02-2025"/>
+        <priority priority="MINOR"/>
+        <estimatedTime days="3"/>
+    </booleanTask>
+    <booleanTask finished="true">
+        <description text="HELLO"/>
+        <deadline date="30-02-2027"/>
+        <priority priority="MINOR"/>
+        <estimatedTime days="3"/>
+    </booleanTask>
+    <progressiveTask progress="50">
+        <description text="text"/>
+        <deadline date="14-01-2024"/>
+        <priority priority="MINOR"/>
+        <estimatedTime days="4"/>
+    </progressiveTask>
+    <progressiveTask progress="50">
+        <description text="text"/>
+        <deadline date="13-01-2024"/>
+        <priority priority="MINOR"/>
+        <estimatedTime days="4"/>
+    </progressiveTask>
+    <progressiveTask progress="50">
+        <description text="text"/>
+        <deadline date="14-06-2024"/>
+        <priority priority="MINOR"/>
+        <estimatedTime days="4"/>
+    </progressiveTask>
+    <progressiveTask progress="50">
+        <description text="text"/>
+        <deadline date="14-05-2024"/>
+        <priority priority="MINOR"/>
+        <estimatedTime days="4"/>
+    </progressiveTask>
+    <progressiveTask progress="50">
+        <description text="text"/>
+        <deadline date="14-01-2023"/>
+        <priority priority="MINOR"/>
+        <estimatedTime days="4"/>
+    </progressiveTask>
+    <complexTask>
+        <description text="hello"/>
+        <priority priority="MINOR"/>
+        <complexTask>
+            <description text="a"/>
+            <priority priority="MINOR"/>
+            <progressiveTask progress="1.2">
+                <description text="mpo"/>
+                <deadline date="30-02-2024"/>
+                <priority priority="MINOR"/>
+                <estimatedTime days="14"/>
+            </progressiveTask>
+        </complexTask>
+        <booleanTask finished="true">
+            <description text="gyezauye"/>
+            <deadline date="30-02-2026"/>
+            <priority priority="MINOR"/>
+            <estimatedTime days="14"/>
+        </booleanTask>
+    </complexTask>
+    <booleanTask finished="false">
+        <description text="HELLO"/>
+        <deadline date="30-02-2028"/>
+        <priority priority="MINOR"/>
+        <estimatedTime days="3"/>
+    </booleanTask>
+</toDoList>
